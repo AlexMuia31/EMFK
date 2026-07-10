@@ -10,11 +10,10 @@ A high-performance, offline-first mobile application for emergency medical servi
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
+
 - [Offline-First Architecture](#offline-first-architecture)
 - [API Integration](#api-integration)
-- [Development](#development)
-- [Troubleshooting](#troubleshooting)
+
 
 ---
 
@@ -69,7 +68,10 @@ Emergency medical personnel operate in high-stress, time-critical environments w
 | UUID Generation | Custom RN-compatible generator |
 | Backend API | Django REST Framework (mock) |
 
----
+## Offline-First Architecture
+<img width="682" height="258" alt="Screenshot 2026-07-10 at 17 46 41" src="https://github.com/user-attachments/assets/72c32017-e707-4372-b512-6088e6b82345" />
+
+
 
 ## Project Structure
 <img width="682" height="791" alt="Screenshot 2026-07-10 at 17 41 38" src="https://github.com/user-attachments/assets/b3425a0a-8518-4977-b969-6c065c9a0557" />
