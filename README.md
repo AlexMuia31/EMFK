@@ -1,5 +1,13 @@
 # 🚨 Paramedic Triage Intake App
 
+I used expo SDK 57 for this. I didnt have areal phone to test on .
+As you can see in the video I had a brower and an Iphone emulator running the same project.
+The pending updates are shown when you view it on web . You can see in the screenshot below that on offline mode a banner appears to show the pending records
+The application turns the submit button from blue to red when the app is offline.
+
+<img width="1217" height="709" alt="Screenshot 2026-07-12 at 15 03 54" src="https://github.com/user-attachments/assets/217e3e47-1977-4e98-9841-b23511bf6a4f" />
+
+
 A high-performance, offline-first mobile application for emergency medical services field paramedics. Built with React Native (Expo), TypeScript, Redux Toolkit Query, and NativeWind.
 
 ---
@@ -76,3 +84,29 @@ Emergency medical personnel operate in high-stress, time-critical environments w
 ## Project Structure
 <img width="682" height="791" alt="Screenshot 2026-07-10 at 17 41 38" src="https://github.com/user-attachments/assets/b3425a0a-8518-4977-b969-6c065c9a0557" />
 
+## API Integration
+
+# The API Slice
+- There's a single API slice defined in triageApi.ts that configures the base URL and defines all the endpoints the app needs. RTK Query automatically generates React hooks for each endpoint — so instead of writing useEffect + fetch boilerplate, you get useSubmitTriageMutation() and useGetTriageRecordsQuery() hooks ready to use.
+
+# Optimistic Updates
+- When a paramedic submits online, RTK Query performs an optimistic update — it immediately adds the new record to the local cache before the server responds. If the server request fails, the update is automatically rolled back. This makes the UI feel instant while maintaining consistency.
+Offline Interception
+- The key architectural decision is that RTK Query does not handle offline queuing itself. Instead, the app intercepts failures at the component level:
+1. Paramedic taps submit
+2. App checks NetInfo connectivity state from Redux
+3. If online: calls submitTriage() mutation
+4. If offline (or mutation fails): creates a QueuedSubmission object and dispatches addToQueueAsync() to persist in AsyncStorage
+This separation keeps RTK Query clean for online operations while the custom sync engine handles the offline queue.
+
+## Data Flow Summary
+
+<img width="702" height="570" alt="Screenshot 2026-07-12 at 14 58 05" src="https://github.com/user-attachments/assets/0e287bc2-295b-459d-9c46-96aa44ab1ffd" />
+
+
+## Why RTK Query?
+- Automatic caching — Records fetched from server are cached and deduplicated
+- Built-in loading/error states — No manual isLoading booleans needed
+- Standardized patterns — Every endpoint follows the same structure
+- DevTools integration — Redux DevTools shows every query/mutation lifecycle
+The trade-off is that RTK Query assumes a connected client. The offline queue layer was built specifically to fill that gap without fighting against RTK Query's design.
